@@ -1,0 +1,28 @@
+.login-form {
+  width: 25rem;
+  height: 32rem;
+  padding: 10px 10px 10px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  background-color: rgba(255, 255, 255);
+}
+.register-form {
+  width: 45rem;
+  height: 32rem;
+  padding: 10px 10px 10px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  background-color: rgba(255, 255, 255);
+}
+.input-login {
+  border-radius: 15px;
+  height: 3rem;
+}
+.login-button:hover {
+  box-shadow: 2px 5px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
