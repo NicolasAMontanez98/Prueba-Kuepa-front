@@ -12,21 +12,33 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios({
-        method: "GET",
-        baseURL: "http://localhost:8000/api/",
-        url: "user/",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (data.status === 200) {
-        Swal.fire({
-          title: data.message,
-          icon: "success",
+      axios
+        .get("http://localhost:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(({ data }) => {
+          if (data.status === 200) {
+            Swal.fire({
+              title: data.message,
+              icon: "success",
+            });
+            setUser(data);
+          } else {
+            Swal.fire({
+              title: data.message,
+              icon: "warning",
+            });
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Tu sesión ha expirado",
+            text: "Vuelve a iniciar sesión",
+            icon: "error",
+          });
         });
-      }
-      setUser(data);
     };
     if (!token) {
       Swal.fire({
@@ -38,14 +50,14 @@ export default function Home() {
     } else {
       fetchData();
     }
-  }, [history, token]);
+  }, []);
 
   return (
     <div>
       <Navbar info={user} />
       <div className="card mx-5 my-4">
         <div className="card-header bg-dark text-white">
-          <h1>Classroom</h1>
+          <h1>Clase 1 - {user.usuario}</h1>
         </div>
         <div className="card-body">
           <div className="row">
@@ -53,10 +65,10 @@ export default function Home() {
               <div className="card bg-dark" style={{ height: "600px" }}>
                 <div className="card-body">
                   <iframe
-                    title="Video"
+                    title="kuepaEduTech"
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/GEwsZctX77w"
+                    src="https://www.youtube.com/embed/jtZ8QjiWMFI"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -65,12 +77,15 @@ export default function Home() {
               </div>
             </div>
             <div className="col-4">
-              <div className="card bg-dark text-white">
+              <div
+                className="card bg-dark text-white"
+                style={{ height: "600px" }}
+              >
                 <div className="card-header">
                   <h3 className="mt-2">Chat</h3>
                 </div>
                 <div className="card-body">
-                  <Chat user={user} />  
+                  <Chat user={user} />
                 </div>
               </div>
             </div>
