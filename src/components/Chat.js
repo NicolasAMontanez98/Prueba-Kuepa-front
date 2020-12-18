@@ -21,11 +21,9 @@ export default function Chat({ user }) {
     socketRef.current = io.connect("//localhost:8000/clase");
     socketRef.current.on("messages saves", (msjs) => {
       setMessages(msjs);
-      console.log(msjs);
     });
     socketRef.current.on("new messages", (msj) => {
       setMessages((prevMsjs) => prevMsjs.concat(msj));
-      console.log(msj);
     });
     if (messageEl) {
       messageEl.current.addEventListener("DOMNodeInserted", (event) => {
