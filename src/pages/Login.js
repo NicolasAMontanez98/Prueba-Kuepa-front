@@ -5,33 +5,47 @@ import { motion } from "framer-motion";
 import "../style/pages.css";
 
 export default function Login() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [usuario, setUser] = useState("");
+  const [contrasenia, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8000/api/login");
+    const { data } = await axios.post("http://localhost:8000/api/user/login", {
+      usuario,
+      contrasenia,
+    });
+    console.log(data);
   };
 
   return (
     <div>
-      <form className="card login-form" onSubmit={handleLogin}>
+      <form
+        className="card login-form bg-dark text-white "
+        onSubmit={handleLogin}
+      >
         <div className="mx-2 my-3">
           <div className="mb-3 text-center">
-            <img
-              src="http://www.kuepa.com/COV2/assets/img/logo.png"
-              alt="Login"
-              title="Login"
-              width="120"
-              height="34"
-            />
-            <h2 className="my-3">
-              <strong>Login</strong>
-            </h2>
+            <div className="row">
+              <div className="col-5 border-end">
+                <img
+                  src="http://www.kuepa.com/COV2/assets/img/logo.png"
+                  alt="Login"
+                  title="Login"
+                  width="120"
+                  height="34"
+                  className="my-3"
+                />
+              </div>
+              <div className="col-7">
+                <h2 className="my-3">
+                  <strong>Login</strong>
+                </h2>
+              </div>
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="inputUser" className="form-label">
-              <strong>Email address</strong>
+              Usuario
             </label>
             <input
               type="text"
@@ -39,25 +53,25 @@ export default function Login() {
               id="inputUser"
               aria-describedby="userHelp"
               onChange={(e) => setUser(e.target.value)}
+              required
             />
-            <div id="userHelp" className="form-text">
-              No compartiremos tu información con nadie más.
-            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="inputPassword" className="form-label">
-              <strong>Password</strong>
+              Contraseña
             </label>
             <input
               type="password"
               className="form-control input-login"
               id="inputPassword"
+              autoComplete="on"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
-          <p className="text-muted">
+          <div className="text-muted">
             ¿Eres nuevo o nueva?, <Link to="/registro">Registrate</Link>
-          </p>
+          </div>
         </div>
         <motion.button
           whileHover={{ scale: 0.9 }}

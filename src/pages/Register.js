@@ -5,64 +5,122 @@ import { motion } from "framer-motion";
 import "../style/pages.css";
 
 export default function Register() {
+  const [nombre, setName] = useState("");
+  const [usuario, setUser] = useState("");
+  const [tipoDeUsuario, setUserType] = useState("");
+  const [contrasenia, setPassword] = useState("");
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const { data } = await axios.post(
+      "http://localhost:8000/api/user/register",
+      {
+        nombre,
+        usuario,
+        tipoDeUsuario,
+        contrasenia,
+      }
+    );
+    console.log(data);
+  };
+
   return (
-    <form className="card register-form">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Email</label>
-          <input type="email" class="form-control" id="inputEmail4" />
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Password</label>
-          <input type="password" class="form-control" id="inputPassword4" />
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputAddress">Address</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inputAddress"
-          placeholder="1234 Main St"
-        />
-      </div>
-      <div class="form-group">
-        <label for="inputAddress2">Address 2</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inputAddress2"
-          placeholder="Apartment, studio, or floor"
-        />
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputCity">City</label>
-          <input type="text" class="form-control" id="inputCity" />
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
-        </div>
-        <div class="form-group col-md-2">
-          <label for="inputZip">Zip</label>
-          <input type="text" class="form-control" id="inputZip" />
+    <form
+      className="card register-form bg-dark text-white"
+      onSubmit={handleRegister}
+    >
+      <div className="mb-3 text-center">
+        <div className="row">
+          <div className="col-3 border-end">
+            <img
+              src="http://www.kuepa.com/COV2/assets/img/logo.png"
+              alt="Login"
+              title="Login"
+              width="120"
+              height="34"
+              className="my-3"
+            />
+          </div>
+          <div className="col-9 text-left">
+            <h2 className="my-3">
+              <strong>Registro</strong>
+            </h2>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck" />
-          <label class="form-check-label" for="gridCheck">
-            Check me out
+      <div className="row mb-3">
+        <div className="form-group col-md-6">
+          <label htmlFor="inputName" className="form-label">
+            Nombre
           </label>
+          <input
+            type="text"
+            className="form-control input-login"
+            id="inputName"
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="inputUser" className="form-label">
+            Usuario
+          </label>
+          <input
+            type="text"
+            className="form-control input-login"
+            id="inputUser"
+            aria-describedby="userHelp"
+            onChange={(e) => setUser(e.target.value)}
+            required
+          />
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">
-        Sign in
-      </button>
+      <div className="mb-3">
+        <label htmlFor="inputUserType" className="form-label">
+          Tipo de Usuario
+        </label>
+        <select
+          id="inputUserType "
+          className="form-control input-login"
+          defaultValue={"predeterminado"}
+          onChange={(e) => setUserType(e.target.value)}
+          required
+        >
+          <option value="predeterminado" disabled>
+            Seleccione una opción
+          </option>
+          <option value="Estudiante">Estudiante</option>
+          <option value="Moderador">Moderador</option>
+        </select>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="inputPassword" className="form-label">
+          Contraseña
+        </label>
+        <input
+          type="password"
+          className="form-control input-login"
+          id="inputPassword"
+          autoComplete="on"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <div id="userHelp" className="form-text">
+          No compartiremos tu información con nadie más.
+        </div>
+      </div>
+      <motion.button
+        whileHover={{ scale: 0.9 }}
+        whileTap={{ scale: 0.7 }}
+        dragConstraints={{ left: -100, right: 100 }}
+        type="submit"
+        className="btn btn-success btn-lg btn-block login-button rounded-pill mb-3"
+      >
+        Registrarse
+      </motion.button>
+      <div className="text-muted text-center">
+        Volver a <Link to="/ingreso">ingreso</Link>
+      </div>
     </form>
   );
 }
