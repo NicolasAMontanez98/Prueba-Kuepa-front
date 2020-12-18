@@ -1,7 +1,15 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
 
-export default function Navbar({ info }) {
-  console.log(info);
+export default function Navbar() {
+  const history = useHistory();
+
+  const handleLogOut = (e) => {
+    localStorage.removeItem("token");
+    history.push("/ingreso");
+  };
+
   return (
     <div>
       <nav className="navbar navbar-dark bg-dark px-4">
@@ -13,7 +21,16 @@ export default function Navbar({ info }) {
           height="34"
           className="my-3"
         />
-        <span>{info.message}</span>
+
+        <motion.button
+          whileHover={{ scale: 0.9 }}
+          whileTap={{ scale: 0.7 }}
+          dragConstraints={{ left: -100, right: 100 }}
+          className="btn btn-danger"
+          onClick={handleLogOut}
+        >
+          Salir
+        </motion.button>
       </nav>
     </div>
   );
