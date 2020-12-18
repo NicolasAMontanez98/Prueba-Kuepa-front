@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 import "../style/pages.css";
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
   const [usuario, setUser] = useState("");
   const [tipoDeUsuario, setUserType] = useState("");
   const [contrasenia, setPassword] = useState("");
+  let history = useHistory();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -21,6 +23,21 @@ export default function Register() {
         contrasenia,
       }
     );
+    if (data.status === 200) {
+      localStorage.setItem("token", data.token);
+      Swal.fire({
+        title: `${data.message}`,
+        icon: "success",
+      });
+      setTimeout(() => {
+        history.push("/");
+      }, 3000);
+    } else {
+      Swal.fire({
+        title: `${data.message}`,
+        icon: "error",
+      });
+    }
     console.log(data);
   };
 
