@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -11,6 +11,18 @@ export default function Register() {
   const [tipoDeUsuario, setUserType] = useState("");
   const [contrasenia, setPassword] = useState("");
   let history = useHistory();
+  let token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      Swal.fire({
+        title: "Ya estás logueado",
+      });
+      setTimeout(() => {
+        history.push("/");
+      }, 200);
+    }
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
